@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/images/weather.png" type="image/x-icon">
+    <title>Weather</title>
+
+    <script src="app.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="sidebar">
+        <div id="sidebar-location-input">
+            <input type="text" name="location-input" id="location-input" placeholder="Enter a location">
+        </div>
+
+        <div id="sidebar-bottom">
+            <button class="sidebar-item">
+                <span class="sidebar-item-icon">
+                    <!-- Icon goes here, e.g., using an <img> or <svg> -->
+                    <img src="assets/images/credits.png" width="20" alt="Icon">
+                </span>
+                <span class="sidebar-item-text">
+                    <!-- Text goes here -->
+                    Credits
+                </span>
+            </button>
+
+            <button class="sidebar-item">
+                <span class="sidebar-item-icon">
+                    <!-- Icon goes here, e.g., using an <img> or <svg> -->
+                    <img src="assets/images/settings.png" width="20" alt="Icon">
+                </span>
+                <span class="sidebar-item-text">
+                    <!-- Text goes here -->
+                    Settings
+                </span>
+            </button>
+        </div>
+    </div>
+
+    <div id="main">
+        <div class="skinny-list">
+            <span class="skinny-list-icon">
+                <img src="assets/images/items/temperature.png" alt="" width="20px">
+            </span>
+            <span class="skinny-list-text">
+                Temperature
+            </span>
+            <span id="temperature" class="skinny-list-info">
+                100,000F
+            </span>
+        </div>
+
+        <div class="skinny-list">
+            <span class="skinny-list-icon">
+                <img src="assets/images/items/chance-of-rain.png" alt="" width="20px">
+            </span>
+            <span class="skinny-list-text">
+                Chance of Rain
+            </span>
+            <span id="chance-of-rain" class="skinny-list-info">
+                1,000%
+            </span>
+        </div>
+
+        <div class="skinny-list">
+            <span class="skinny-list-icon">
+                <img src="assets/images/items/wind-speed.png" alt="" width="20px">
+            </span>
+            <span class="skinny-list-text">
+                Wind Speed
+            </span>
+            <span id="wind-speed" class="skinny-list-info">
+                11,000 mph
+            </span>
+        </div>
+
+        <div class="skinny-list">
+            <span class="skinny-list-icon">
+                <img src="assets/images/items/wind-direction.png" alt="" width="20px">
+            </span>
+            <span class="skinny-list-text">
+                Wind Direction
+            </span>
+            <span id="wind-direction" class="skinny-list-info">
+                Never Eat Soggy Waffles
+            </span>
+        </div>
+
+        <div class="skinny-list">
+            <span class="skinny-list-icon">
+                <img src="assets/images/items/forecast.png" alt="" width="20px">
+            </span>
+            <span class="skinny-list-text">
+                Forecast Description
+            </span>
+            <span id="forecast" class="skinny-list-info">
+                Cloudy with a chance of meatballs
+            </span>
+            <span class="skinny-list-expand">></span>
+        </div>
+    </div>
+</body>
+</html>

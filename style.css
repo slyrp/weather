@@ -1,0 +1,148 @@
+:root {
+    --background: #202020;
+    --sidebar-item-active: #2d2d2d;
+    --test: red;
+    --search-bottom-border: #C8C8C8;
+    --search-focus: #1f1f1f;
+    --search-border: #292929;
+    --primary: #00b7c3;
+}
+
+body {
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    background-color: var(--background);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    height: calc(100% - (22px * 2));
+}
+
+#sidebar {
+    position: fixed;
+    padding: 17px;
+    width: 280px;
+    height: calc(100% - (17px * 2));
+}
+
+.sidebar-item {
+    position: relative; /* Changed from absolute to relative for better alignment */
+    width: 280px;
+    height: 36px;
+    background-color: var(--background);
+    color: white;
+    border: 0;
+    text-align: left;
+    padding: 0 100px 0 10px; /* Added left padding for spacing */
+    font-size: 13px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 3.7px;
+    font-weight: 550;
+    display: flex;
+    align-items: center; /* Ensure vertical alignment of child items */
+    margin-bottom: 2px;
+    margin-top: 2px;
+}
+
+#sidebar-bottom {
+    position: absolute;
+    padding-bottom: 17px;
+    bottom: 0;
+}
+
+.sidebar-item-text {
+    flex: 1; /* Allow text to take available space */
+}
+
+#sidebar-location-input {
+    position: relative;
+    width: 280px;
+    height: 32px;
+    padding-bottom: 14px;
+}
+
+#location-input {
+    width: 266px;
+    height: 32px;
+    border: 1px solid var(--search-border); /* Small border all around */
+    border-bottom: 1px solid var(--search-bottom-border); /* Add a bottom border */
+    padding-block: 0px;
+    padding-inline: 0px;
+    border-radius: 3.7px;
+    background-color: var(--sidebar-item-active);
+    color: white;
+    padding-left: 14px;
+}
+
+#location-input:focus {
+    outline: none;
+    background-color: var(--search-focus);
+    box-shadow: 0 2px 0 0 var(--primary); /* Simulate thicker bottom border */
+    border-color: var(--search-border); /* Keep the border color consistent */
+  }
+
+#location-input::placeholder {
+    color: var(--search-bottom-border);
+}
+
+.sidebar-item-icon {
+    margin-right: 10px; /* Space between icon and text */
+    display: flex;
+    align-items: center; /* Align icon vertically */
+}
+
+.sidebar-item:hover {
+    background-color: var(--sidebar-item-active);
+}
+
+.sidebar-item-active {
+    background-color: var(--sidebar-item-active);
+}
+
+#main {
+    position: absolute;
+    right: 0;
+    width: calc(100% - 335px);
+    height: calc(100% - (22px * 2));
+    padding: 17px;
+    display: flex;
+    flex-direction: column; /* Ensure items stack vertically */
+}
+
+.skinny-list {
+    width: calc(100% - 10px);
+    height: 67px;
+    background-color: var(--sidebar-item-active);
+    border-radius: 3.7px;
+    display: flex;
+    align-items: center; /* Vertically center content */
+    padding-left: 18px;
+    margin-bottom: 6px;
+    box-sizing: border-box; /* Include padding in width/height calculation */
+}
+
+.skinny-list-text {
+    color: white;
+    flex: 1; /* Allow text to take up available space */
+}
+
+.skinny-list-info {
+    color: white;
+    padding-right: 14px;
+}
+
+.skinny-list-expand {
+    color: white;
+    padding-right: 20px;
+}
+
+.skinny-list-expand:hover {
+    color: var(--search-bottom-border);
+    padding-right: 20px;
+}
+
+.skinny-list-icon {
+    padding-right: 21px;
+    display: flex; /* Ensure icon aligns correctly */
+    align-items: center; /* Center icon vertically */
+}
