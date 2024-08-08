@@ -1,153 +1,113 @@
-// sidebar item 280 36
-// sidebar padding 17
+// issues
+// please make an issue thing at github type shi
 
-// credits
-// clock icon https://www.flaticon.com/free-icons/clock
-// settings icon https://www.flaticon.com/free-icons/settings
-// credit icon https://www.flaticon.com/free-icons/info
-// partly cloudy icon https://www.flaticon.com/free-icons/sun
-// storm icon https://www.flaticon.com/free-icons/storm
-// cloudy icon  https://www.flaticon.com/free-icons/cloud
-// rainy icon https://www.flaticon.com/free-icons/rainy
-// drizzle icon https://www.flaticon.com/free-icons/drizzle
-// fog icon https://www.flaticon.com/free-icons/foggy
-// snow icon https://www.flaticon.com/free-icons/snow
-// windy icon https://www.flaticon.com/free-icons/wind
-// hail icon https://www.flaticon.com/free-icons/hail
-// default icon https://www.flaticon.com/free-icons/question-mark
-// weather icon https://www.flaticon.com/free-icons/app
-// wind direction icon https://www.flaticon.com/free-icons/anemometer
-// wind speed icon https://www.flaticon.com/free-icons/wind
-// chance of rain icon https://www.flaticon.com/free-icons/percent
-// forecast icon https://www.flaticon.com/free-icons/forecast
+// <a href="https://www.flaticon.com/free-icons/to-do" title="to do icons">To do icons created by Freepik - Flaticon</a>
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const temperature = document.getElementById("temperature")
-    const chanceOfRain = document.getElementById("chance-of-rain")
-    const windSpeed = document.getElementById("wind-speed")
-    const windDirection = document.getElementById("wind-direction")
-    const forecast = document.getElementById("forecast")
+    const todoButton = document.getElementById("todo")
+    const creditsButton = document.getElementById("credits")
 
-    const sidebar = document.getElementById('sidebar');
-
+    // special thanks to the us gov!
     async function fetchWeatherData(latitude, longitude) {
         try {
+            // just gotta define some stuff fr (i dont quite know whats happening here chatgpt did this for me)
             const response = await fetch(`https://api.weather.gov/points/${latitude},${longitude}`);
             const data = await response.json();
             const { gridId, gridX, gridY } = data.properties;
-
             const forecastResponse = await fetch(`https://api.weather.gov/gridpoints/${gridId}/${gridX},${gridY}/forecast`);
             const forecastData = await forecastResponse.json();
-
             const periods = forecastData.properties.periods;
 
-            console.log(forecastData.properties.periods[0])
-
-            temperature.textContent = String(forecastData.properties.periods[0].temperature) + forecastData.properties.periods[0].temperatureUnit
-            chanceOfRain.textContent = forecastData.properties.periods[0].probabilityOfPrecipitation.value + "%"
-            windSpeed.textContent = forecastData.properties.periods[0].windSpeed
-            windDirection.textContent = forecastData.properties.periods[0].windDirection
-            forecast.textContent = forecastData.properties.periods[0].shortForecast
+            // create a list of the weather stuff
+            createSkinnyList("Temperature", "temperature", "temperature", forecastData.properties.periods[0].temperature + forecastData.properties.periods[0].temperatureUnit)
+            createSkinnyList("Chance of Rain", "chance-of-rain", "chance-of-rain", forecastData.properties.periods[0].probabilityOfPrecipitation.value + "%")
+            createSkinnyList("Wind Speed", "wind-speed", "wind-speed", forecastData.properties.periods[0].windSpeed)
+            createSkinnyList("Wind Direction", "wind-direction", "wind-direction", forecastData.properties.periods[0].windDirection)
+            createSkinnyList("Forecast", 'forecast', 'forecast', forecastData.properties.periods[0].shortForecast)
 
             periods.forEach(period => {
+                // nights are irrelevent... maybe... just doesnt look clean idk
                 if (!period.name.includes('Night')) {
-                    const button = document.createElement('button');
-                    button.classList.add('sidebar-item');
-                    button.setAttribute("number", period.number)
+                    makeSidebarButton(period.number, period.name, period.shortForecast)
+                }
+                const buttons = document.querySelectorAll('.sidebar-item');
+                
+                // this is what happens when a weather button on the sidebar gets clicked, how exciting
+                buttons.forEach(button => {
+                    button.addEventListener('click', () => {
 
-                    const span = document.createElement('span');
-                    span.classList.add('sidebar-item-text');
-                    span.textContent = period.name;
-
-                    const icon = document.createElement('span');
-                    icon.classList.add('sidebar-item-icon');
-
-                    // Create an image element for the icon
-                    const img = document.createElement('img');
-                    img.classList.add('weather-icon');
-                    img.src = getWeatherIcon(period.shortForecast);
-                    img.width = 20;
-
-                    icon.appendChild(img);
-                    button.appendChild(icon);
-                    button.appendChild(span);
-                    sidebar.appendChild(button);
-
-                    const buttons = document.querySelectorAll('.sidebar-item');
-
-                    if (period.number == 1) {
-                        button.classList.add("sidebar-item-active")
-                    }
-
-                    buttons.forEach(button => {
-                        button.addEventListener('click', () => {
                         buttons.forEach(btn => btn.classList.remove('sidebar-item-active'));
 
                         button.classList.add('sidebar-item-active');
 
+                        // this is just if its credits or settings it doesnt also do this
                         if (button.hasAttribute("number")) {
                             var newPeriod = button.getAttribute("number") - 1
-                            console.log(button.getAttribute("number"))
 
-                            temperature.textContent = String(forecastData.properties.periods[newPeriod].temperature) + forecastData.properties.periods[0].temperatureUnit
-                            chanceOfRain.textContent = forecastData.properties.periods[newPeriod].probabilityOfPrecipitation.value + "%"
-                            windSpeed.textContent = forecastData.properties.periods[newPeriod].windSpeed
-                            windDirection.textContent = forecastData.properties.periods[newPeriod].windDirection
-                            forecast.textContent = forecastData.properties.periods[newPeriod].shortForecast
+                            if (!document.getElementById("temperature")) {
+                                clearMain()
+                                createSkinnyList("Temperature", "temperature", "temperature", forecastData.properties.periods[newPeriod].temperature + forecastData.properties.periods[0].temperatureUnit)
+                                createSkinnyList("Chance of Rain", "chance-of-rain", "chance-of-rain", forecastData.properties.periods[newPeriod].probabilityOfPrecipitation.value + "%")
+                                createSkinnyList("Wind Speed", "wind-speed", "wind-speed", forecastData.properties.periods[newPeriod].windSpeed)
+                                createSkinnyList("Wind Direction", "wind-direction", "wind-direction", forecastData.properties.periods[newPeriod].windDirection)
+                                createSkinnyList("Forecast", 'forecast', 'forecast', forecastData.properties.periods[newPeriod].shortForecast)
+                            }
+
+                            changeWeatherListInfo("temperature", forecastData.properties.periods[newPeriod].temperature + forecastData.properties.periods[newPeriod].temperatureUnit)
+                            changeWeatherListInfo("chance-of-rain", forecastData.properties.periods[newPeriod].probabilityOfPrecipitation.value + "%")
+                            changeWeatherListInfo("wind-speed", forecastData.properties.periods[newPeriod].windSpeed)
+                            changeWeatherListInfo("wind-direction", forecastData.properties.periods[newPeriod].windDirection)
+                            changeWeatherListInfo("forecast", forecastData.properties.periods[newPeriod].shortForecast)
                         }
-                        });
                     });
-                }
+                });
             });
-        } catch (error) {
+        }
+        // now tbh i dont know why this is here but its here and i dont wanna remove it
+        catch (error) {
             console.error('Error:', error);
         }
     }
 
-    function getWeatherIcon(description) {
-        // Map keywords in descriptions to icons
-        const iconMap = [
-            { keyword: 'Sunny', icon: 'assets/images/weather/sunny.png' },
-            { keyword: 'Partly Cloudy', icon: 'assets/images/weather/partly-cloudy.png' },
-            { keyword: 'Cloudy', icon: 'assets/images/weather/cloudy.png' },
-            { keyword: 'Rain', icon: 'assets/images/weather/rainy.png' },
-            { keyword: 'Drizzle', icon: 'assets/images/weather/drizzle.png' },
-            { keyword: 'Snow', icon: 'assets/images/weather/snow.png' },
-            { keyword: 'Fog', icon: 'assets/images/weather/foggy.png' },
-            { keyword: 'Windy', icon: 'assets/images/weather/windy.png' },
-            { keyword: 'Hail', icon: 'assets/images/weather/hail.png' },
-            { keyword: 'Thunderstorm', icon: 'assets/images/weather/stormy.png' }
-        ];
-
-        // Check if any keyword is present in the description
-        for (const { keyword, icon } of iconMap) {
-            if (description.includes(keyword)) {
-                return icon;
-            }
-        }
-
-        // Return a default icon if no match is found
-        return 'assets/images/weather/default.png';
-    }
-
+    // success!
     function successCallback(position) {
         const { latitude, longitude } = position.coords;
         fetchWeatherData(latitude, longitude);
     }
 
+    // OMG THERE WAS AN ERROR headass
     function errorCallback(error) {
         console.log(`Error: ${error.message}`);
     }
 
+    // please turn on ur location so i can eat ur ip, yum
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 
-    const buttons = document.querySelectorAll('.sidebar-item');
+    todoButton.addEventListener('click', () => {
+        clearMain()
+        createSkinnyList("Make the location search work", "search")
+    })
 
-    buttons.forEach(button => {
-        button.addEventListener('click', () => {
-            buttons.forEach(btn => btn.classList.remove('sidebar-item-active'));
-
-            button.classList.add('sidebar-item-active');
-        });
-    });
+    creditsButton.addEventListener('click', () => {
+        clearMain()
+        createSkinnyListLink("Weather Icon", "assets/images/weather.png", "Go", "https://www.flaticon.com/free-icons/app")
+        createSkinnyListLink("Todo Icon", "assets/images/todo.png", "Go", "https://www.flaticon.com/free-icons/to-do")
+        createSkinnyListLink("Credit Icon", "assets/images/credits.png", "Go", "https://www.flaticon.com/free-icons/info")
+        createSkinnyListLink("Temperature Icon", "assets/images/temperature.png", "Go", "https://www.flaticon.com/free-icons/temperature")
+        createSkinnyListLink("Chance of Rain Icon", "assets/images/chance-of-rain.png", "Go", "https://www.flaticon.com/free-icons/percent")
+        createSkinnyListLink("Wind Speed Icon", "assets/images/wind-speed.png", "Go", "https://www.flaticon.com/free-icons/wind")
+        createSkinnyListLink("Wind Direction Icon", "assets/images/wind-direction.png", "Go", "https://www.flaticon.com/free-icons/anemometer")
+        createSkinnyListLink("Forecast Icon", "assets/images/forecast.png", "Go", "https://www.flaticon.com/free-icons/forecast")
+        createSkinnyListLink("Unknown Conditions Icon", "assets/images/default.png", "Go", "https://www.flaticon.com/free-icons/question-mark")
+        createSkinnyListLink("Hail Icon", "assets/images/hail.png", "Go", "https://www.flaticon.com/free-icons/hail")
+        createSkinnyListLink("Storm Icon", "assets/images/stormy.png", "Go", "https://www.flaticon.com/free-icons/storm")
+        createSkinnyListLink("Rain Icon", "assets/images/rainy.png", "Go", "https://www.flaticon.com/free-icons/rainy")
+        createSkinnyListLink("Drizzle Icon", "assets/images/drizzle.png", "Go", "https://www.flaticon.com/free-icons/drizzle")
+        createSkinnyListLink("Fog Icon", "assets/images/foggy.png", "Go", "https://www.flaticon.com/free-icons/foggy")
+        createSkinnyListLink("Wind Icon", "assets/images/windy.png", "Go", "https://www.flaticon.com/free-icons/wind")
+        createSkinnyListLink("Snow Icon", "assets/images/snow.png", "Go", "https://www.flaticon.com/free-icons/snow")
+        createSkinnyListLink("Cloud Icon", "assets/images/cloudy.png", "Go", "https://www.flaticon.com/free-icons/cloud")
+        createSkinnyListLink("Partly Cloudy Icon", "assets/images/partly-cloudy.png", "Go", "https://www.flaticon.com/free-icons/sun")
+        createSkinnyListLink("Sun Icon", "assets/images/sunny.png", "Go", "https://www.flaticon.com/free-icons/sun")
+    })
 });

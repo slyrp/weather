@@ -5,7 +5,31 @@
     --search-bottom-border: #C8C8C8;
     --search-focus: #1f1f1f;
     --search-border: #292929;
-    --primary: #00b7c3;
+    --primary: #29e3ea;
+    --text-color: white
+}
+
+/* Style the scrollbar track (the part you scroll through) */
+#main::-webkit-scrollbar {
+    width: 3px; /* Width of the scrollbar */
+    height: 12px; /* Height of the scrollbar (for horizontal scrollbars) */
+}
+
+/* Style the scrollbar thumb (the draggable part) */
+#main::-webkit-scrollbar-thumb {
+    background-color: var(--search-bottom-border); /* Background color of the thumb */
+    border-radius: 3.7px; /* Rounded corners for the thumb */
+}
+
+/* Style the scrollbar thumb on hover */
+#main::-webkit-scrollbar-thumb:hover {
+    background-color: var(--search-bottom-border); /* Darker color on hover */
+}
+
+/* Optional: Style the scrollbar track (part you don’t scroll through) */
+#main::-webkit-scrollbar-track {
+    background: var(--background); /* Background color of the track */
+    border-radius: 6px; /* Rounded corners for the track */
 }
 
 body {
@@ -16,6 +40,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     width: 100%;
     height: calc(100% - (22px * 2));
+    overflow-y: hidden;
 }
 
 #sidebar {
@@ -30,7 +55,7 @@ body {
     width: 280px;
     height: 36px;
     background-color: var(--background);
-    color: white;
+    color: var(--text-color);
     border: 0;
     text-align: left;
     padding: 0 100px 0 10px; /* Added left padding for spacing */
@@ -70,7 +95,7 @@ body {
     padding-inline: 0px;
     border-radius: 3.7px;
     background-color: var(--sidebar-item-active);
-    color: white;
+    color: var(--text-color);
     padding-left: 14px;
 }
 
@@ -103,13 +128,16 @@ body {
     position: absolute;
     right: 0;
     width: calc(100% - 335px);
-    height: calc(100% - (22px * 2));
+    height: calc(100vh - 30px);
     padding: 17px;
     display: flex;
     flex-direction: column; /* Ensure items stack vertically */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Hide horizontal overflow (if necessary) */
 }
 
 .skinny-list {
+    flex: 0 0 auto; /* Prevent shrinking and ensure proper sizing */
     width: calc(100% - 10px);
     height: 67px;
     background-color: var(--sidebar-item-active);
@@ -122,17 +150,32 @@ body {
 }
 
 .skinny-list-text {
-    color: white;
+    color: var(--text-color);
     flex: 1; /* Allow text to take up available space */
 }
 
 .skinny-list-info {
-    color: white;
+    color: var(--text-color);
+    padding-right: 14px;
+}
+
+.skinny-list-button {
+    border: none;
+    color: black;
+    background-color: var(--primary);
+    padding: 8px;
+    padding-left: 14px;
+    padding-right: 14px;
+    border-radius: 3.7px;
+}
+
+.skinny-list-button-container {
+    color: var(--text-color);
     padding-right: 14px;
 }
 
 .skinny-list-expand {
-    color: white;
+    color: var(--text-color);
     padding-right: 20px;
 }
 
@@ -145,4 +188,44 @@ body {
     padding-right: 21px;
     display: flex; /* Ensure icon aligns correctly */
     align-items: center; /* Center icon vertically */
+}
+
+.radio-inputs {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 3.7px;
+    background-color: var(--search-border);
+    box-sizing: border-box;
+    padding: 0.25rem;
+    width: 200px;
+    font-size: 14px;
+    height: 46px;
+    margin-right: 14px;
+}
+  
+  .radio-inputs .radio {
+    flex: 1 1 auto;
+    text-align: center;
+}
+  
+  .radio-inputs .radio input {
+    display: none;
+}
+  
+.radio-inputs .radio .name {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3.7px;
+    border: none;
+    padding: 0.5rem 0;
+    color: var(--text-color);
+    transition: all 0.15s ease-in-out;
+}
+  
+.radio-inputs .radio input:checked + .name {
+    background-color: var(--sidebar-item-active);
+    font-weight: 600;
 }
